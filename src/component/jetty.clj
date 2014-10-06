@@ -62,14 +62,14 @@
          (mapcat (fn [path]
                    (let [path (io/file path)
                          files (.listFiles path)]
-                     (for [file files
-                           :let [f (io/file file)]]
-                       (do
-                         (str-path
-                          #(.isDirectory (io/file path %))
-                          (-> (.getCanonicalPath f)
-                              (string/replace (.getCanonicalPath path) "")
-                              (string/replace #"^/" ""))))))))
+                     (map (fn [file]
+                            (let [f (io/file file)]
+                              (str-path
+                               #(.isDirectory (io/file path %))
+                               (-> (.getPath f)
+                                   (string/replace (.getPath path) "")
+                                   (string/replace #"^/" "")))))
+                          files))))
          (concat (gen-mappings context meta-conf class-loader))
          (remove nil?)
          (remove web-app-ignore)
@@ -83,7 +83,9 @@
   ([n ^ClassLoader loader] (enumeration-seq (.getResources loader n))))
 
 (defn public-resources []
-  (for [r (resources "public") :let [f (io/file r)]]
+  (for [r (resources "public")
+        :let [f (try (io/file r) (catch Exception _))]
+        :when f]
     (-> (.getCanonicalPath f)
         (string/replace (.getCanonicalPath (io/file ".")) "")
         (string/replace #"^/" ""))))
