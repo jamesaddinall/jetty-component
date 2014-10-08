@@ -82,8 +82,8 @@
   ([n] (resources n (.getContextClassLoader (Thread/currentThread))))
   ([n ^ClassLoader loader] (enumeration-seq (.getResources loader n))))
 
-(defn public-resources []
-  (for [r (resources "public")
+(defn file-paths [resources]
+  (for [r resources
         :let [f (try (io/file r) (catch Exception _))]
         :when f]
     (-> (.getCanonicalPath f)
@@ -91,10 +91,14 @@
         (string/replace #"^/" ""))))
 
 (defn web-app-context [public]
-  (doto (WebAppContext.)
-    (.setContextPath "/")
-    (.setBaseResource (ResourceCollection. (into-array String public)))
-    (.setInitParameter "aliases" "True")))
+  (let [public (->> public
+                    (map #(Resource/newResource %))
+                    (into-array Resource))]
+    (prn (seq public))
+    (doto (WebAppContext.)
+      (.setContextPath "/")
+      (.setBaseResource (doto (ResourceCollection.) (.setResources public)))
+      (.setInitParameter "aliases" "True"))))
 
 (defn ->servlet-mapping [servlet mappings]
   {:pre [(sequential? mappings) (every? string? mappings)]}
@@ -107,8 +111,9 @@
   (start [component]
     (prn "Starting Webserver...")
     (let [handler (-> component :app :handler)
-          [path :as public] (public-resources)
-          context (web-app-context public)
+          public-resources (resources "public")
+          public (file-paths public-resources)
+          context (web-app-context public-resources)
           class-loader (WebAppClassLoader. context)
           meta-conf (MetaInfConfiguration.)
           mappings (mappings public context meta-conf class-loader)
