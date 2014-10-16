@@ -94,7 +94,6 @@
   (let [public (->> public
                     (map #(Resource/newResource %))
                     (into-array Resource))]
-    (prn (seq public))
     (doto (WebAppContext.)
       (.setContextPath "/")
       (.setBaseResource (doto (ResourceCollection.) (.setResources public)))
@@ -109,7 +108,7 @@
 (defrecord Webserver [port]
   component/Lifecycle
   (start [component]
-    (prn "Starting Webserver...")
+    (println "Starting Webserver...")
     (let [handler (-> component :app :handler)
           public-resources (resources "public")
           public (file-paths public-resources)
