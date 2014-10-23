@@ -145,5 +145,5 @@
     (when-let [server (:server component)]
       (.stop server))))
 
-(defn web-server [port]
+(defn web-server [& [port]]
   (->Webserver port))
