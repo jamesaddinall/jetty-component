@@ -1,4 +1,4 @@
-(defproject com.andrewmcveigh/jetty-component "0.1.1"
+(defproject com.andrewmcveigh/jetty-component "0.1.2-SNAPSHOT"
   :description "A Component that runs a ring-servlet with Servlet 3 API."
   :url "http://github.com/andrewmcveigh/jetty-component"
   :license {:name "Eclipse Public License"
