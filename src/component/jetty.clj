@@ -139,7 +139,6 @@
         (.start))
       (let [port (.getLocalPort (first (.getConnectors server)))]
         (println "Started server on port: " port)
-        (when (.exists (io/file "target")) (spit "target/.boot-port" port))
         (assoc component :server server :port port))))
   (stop [component]
     (when-let [server (:server component)]
