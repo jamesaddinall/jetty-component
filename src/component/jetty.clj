@@ -140,9 +140,13 @@
       (let [port (.getLocalPort (first (.getConnectors server)))]
         (println "Started server on port: " port)
         (assoc component :server server :port port))))
-  (stop [component]
-    (when-let [server (:server component)]
-      (.stop server))))
+  (stop [{:keys [server port] :as component}]
+    (if server
+      (do
+        (println
+         (format "Stopping Jetty Server on port: %s" port))
+        (.stop server))
+      (println "Server not part of component, could not stop it."))))
 
 (defn web-server [& [port]]
   (->Webserver port))
