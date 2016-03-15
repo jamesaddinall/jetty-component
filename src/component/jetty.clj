@@ -13,7 +13,7 @@
     FragmentConfiguration JettyWebXmlConfiguration]))
 
 (def | (System/getProperty "file.separator"))
-(def delim-pattern (re-pattern (format "(?:^%s)|(?:%s$)" | |)))
+(def delim-pattern (re-pattern (format "\(?:^%s\)|\(?:%s$\)" | |)))
 (def web-app-ignore #{"/WEB-INF" #_"/META-INF" "/.DS_Store"})
 
 (defn join-path [& args]
