@@ -1,4 +1,4 @@
-(defproject jamesaddinall/jetty-component "0.1.3-SNAPSHOT"
+(defproject jamesaddinall/jetty-component "0.1.3"
   :description "A Component that runs a ring-servlet with Servlet 3 API."
   :url "http://github.com/jamesaddinall/jetty-component"
   :license {:name "Eclipse Public License"
