@@ -1,6 +1,6 @@
-(defproject com.andrewmcveigh/jetty-component "0.1.3-SNAPSHOT"
+(defproject jamesaddinall/jetty-component "0.1.3-SNAPSHOT"
   :description "A Component that runs a ring-servlet with Servlet 3 API."
-  :url "http://github.com/andrewmcveigh/jetty-component"
+  :url "http://github.com/jamesaddinall/jetty-component"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.6.0"]
